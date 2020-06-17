@@ -1,0 +1,6 @@
+001：用户名或者密码为空 EmptyUseInfo
+002：用户名不存在  NonExistingUsername
+003：密码错误（登录）WrongPassword
+004：用户名已被使用（注册）ExistingUsename
+005：用户名或密码过长 OversizeUserInfo
+006：筛选条件无效 UnavaliableFilter
