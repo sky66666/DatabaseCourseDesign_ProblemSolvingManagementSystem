@@ -16,6 +16,7 @@ public class login {
 
     protected Shell shell;
     private dbController db;
+    private Encryption encryption;
 
     public static void main(String[] args){
         try {
@@ -27,6 +28,7 @@ public class login {
     }
 
     public void open() throws SQLException {
+        encryption = new Encryption();
         try {
             db = new dbController(dbConstant.DBURL,dbConstant.USERNAME,dbConstant.PASSWORD);
         }catch (SQLException e){
@@ -82,7 +84,7 @@ public class login {
                     ResultSet res = db.query("select * from users where username = '"+username+"' ");
                     try {
                         if(res.next()){
-                            if(res.getString("password").equals(password)){
+                            if(password.equals(encryption.decrypt(res.getString("password")))){
                                 //successfully login here
                                 shell.setVisible(false);
                                 menu nxWin = new menu();
@@ -124,6 +126,7 @@ public class login {
                             ExistingUsername win = new ExistingUsername();
                             win.open();
                         }else{
+                            password = encryption.encrypt(password);
                             db.addItem(String.format("insert into users values(null,'%s','%s','用户')",username,password));
                             SuccessfulOperation window = new SuccessfulOperation();
                             window.open();
